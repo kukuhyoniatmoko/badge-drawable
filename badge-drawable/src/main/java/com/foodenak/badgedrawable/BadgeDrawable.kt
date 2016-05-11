@@ -8,15 +8,25 @@ import android.text.TextUtils
  * Created by ITP on 5/11/16.
  */
 class BadgeDrawable(private val textSize: Float, textColor: Int, backgroundColor: Int,
-    private val textPadding: Float, private val minSize: Float) : Drawable() {
+    private val textPadding: Float, private val minSize: Float, private val elevation: Float = 0F) : Drawable() {
 
   private var badge = "";
   private var willDraw = false
 
   private val backgroundPaint = Paint()
   private val textPaint = Paint()
+  private val elevationPaint: Paint?
 
   init {
+    elevationPaint = if (elevation > 0F) {
+      val paint = Paint()
+      paint.color = Color.BLACK
+      paint.alpha = 85
+      paint.style = Paint.Style.FILL
+      paint
+    } else {
+      null
+    }
     backgroundPaint.color = backgroundColor
     backgroundPaint.isAntiAlias = true
     backgroundPaint.style = Paint.Style.FILL
@@ -64,6 +74,11 @@ class BadgeDrawable(private val textSize: Float, textColor: Int, backgroundColor
     val right = bounds.right.toFloat()
 
     val round = backGroundHeight / 2F
+
+    if (elevationPaint != null) {
+      canvas.drawRoundRect(left, top + elevation, right, bottom + elevation, round, round,
+          elevationPaint)
+    }
 
     canvas.drawRoundRect(left, top, right, bottom, round, round, backgroundPaint)
 
