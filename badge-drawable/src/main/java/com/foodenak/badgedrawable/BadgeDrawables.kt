@@ -20,6 +20,7 @@ fun createBadge(context: Context, icon: Drawable, badge: BadgeDrawable): LayerDr
     context.resources.getDrawable(R.drawable.badge_drawable_icon).mutate() as LayerDrawable
   }
   drawable.setDrawableByLayerId(R.id.badge_drawable_icon, icon)
+  drawable.paddingMode = LayerDrawable.PADDING_MODE_STACK
   drawable.setDrawableByLayerId(R.id.badge_drawable_badge, badge)
   return drawable
 }
