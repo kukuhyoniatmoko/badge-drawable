@@ -2,12 +2,14 @@ package com.foodenak.badgedrawable
 
 import android.graphics.*
 import android.graphics.drawable.Drawable
+import android.text.TextUtils
 import android.util.Log
 
 /**
  * Created by ITP on 5/11/16.
  */
-class BadgeDrawable(private val textSize: Float, textColor: Int, backgroundColor: Int) : Drawable() {
+class BadgeDrawable(private val textSize: Float, textColor: Int, backgroundColor: Int,
+    private val textPadding: Float) : Drawable() {
 
   private var badge = "";
   private var willDraw = false
@@ -27,11 +29,20 @@ class BadgeDrawable(private val textSize: Float, textColor: Int, backgroundColor
   }
 
   fun setText(text: Int?) {
-    val badge = text.toString()
+    val badge = if (text == null) "" else text.toString()
     if (this.badge.equals(badge)) return
     Log.d(TAG, "badge changed from: ${this.badge} to: $badge")
     this.badge = badge
     willDraw = text != null && text > 0;
+    invalidateSelf()
+  }
+
+  fun setText(text: String?) {
+    val badge = text ?: ""
+    if (this.badge.equals(badge)) return
+    Log.d(TAG, "badge changed from: ${this.badge} to: $badge")
+    this.badge = badge
+    willDraw = !TextUtils.isEmpty(this.badge);
     invalidateSelf()
   }
 
@@ -41,17 +52,25 @@ class BadgeDrawable(private val textSize: Float, textColor: Int, backgroundColor
 
     val bounds = bounds
     val width = (bounds.right - bounds.left).toFloat()
-    val height = (bounds.bottom - bounds.top).toFloat()
-    val radius = ((Math.min(width, height) / 2F) - 1F) / 2F
-    val centerX = width - radius - 1F
-    val centerY = radius + 1F
-    canvas.drawCircle(centerX, centerY, radius, backgroundPaint)
 
     val textRect = Rect()
     textPaint.getTextBounds(badge, 0, badge.length, textRect)
     val textHeight = (textRect.bottom - textRect.top).toFloat()
-    val textY = (centerY + (textHeight / 2F))
-    canvas.drawText(badge, centerX, textY, textPaint)
+    val textWidth = (textRect.right - textRect.left).toFloat()
+
+    val doublePadding = (textPadding * 2).toFloat()
+
+    val backGroundWidth = textWidth + doublePadding
+    val backGroundHeight = textHeight + doublePadding
+
+    val bottom = bounds.top + backGroundHeight
+    val left = bounds.right + (width - backGroundWidth)
+
+    val round = backGroundHeight / 2F
+
+    canvas.drawRoundRect(left, bounds.top.toFloat(),
+        bounds.right.toFloat(), bottom, round, round, backgroundPaint)
+    canvas.drawText(badge, bottom / 2F, left + textPadding, textPaint)
   }
 
   override fun setAlpha(alpha: Int) {

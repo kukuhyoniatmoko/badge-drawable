@@ -41,3 +41,21 @@ fun MenuItem.setBadgeCount(count: Int?) {
   }
   icon.setCount(count)
 }
+
+fun LayerDrawable.setCount(count: String?) {
+  val badge = findDrawableByLayerId(R.id.badge_drawable_badge);
+  if (badge is BadgeDrawable) {
+    badge.setText(count)
+  } else {
+    throw IllegalStateException("create LayerDrawable with createBadge()")
+  }
+}
+
+fun MenuItem.setBadgeCount(count: String?) {
+  val icon = if (icon is LayerDrawable) {
+    icon as LayerDrawable
+  } else {
+    throw IllegalStateException("Icon should a LayerDrawable!")
+  }
+  icon.setCount(count)
+}
