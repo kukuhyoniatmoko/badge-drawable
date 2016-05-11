@@ -3,13 +3,12 @@ package com.foodenak.badgedrawable
 import android.graphics.*
 import android.graphics.drawable.Drawable
 import android.text.TextUtils
-import android.util.Log
 
 /**
  * Created by ITP on 5/11/16.
  */
 class BadgeDrawable(private val textSize: Float, textColor: Int, backgroundColor: Int,
-    private val textPadding: Float) : Drawable() {
+    private val textPadding: Float, private val minSize: Float) : Drawable() {
 
   private var badge = "";
   private var willDraw = false
@@ -25,14 +24,12 @@ class BadgeDrawable(private val textSize: Float, textColor: Int, backgroundColor
     textPaint.color = textColor
     textPaint.textSize = textSize
     textPaint.isAntiAlias = true
-    textPaint.typeface = Typeface.DEFAULT_BOLD
-    textPaint.textAlign = Paint.Align.LEFT
+    textPaint.textAlign = Paint.Align.CENTER
   }
 
   fun setText(text: Int?) {
     val badge = if (text == null) "" else text.toString()
     if (this.badge.equals(badge)) return
-    Log.d(TAG, "badge changed from: ${this.badge} to: $badge")
     this.badge = badge
     willDraw = text != null && text > 0;
     invalidateSelf()
@@ -41,14 +38,12 @@ class BadgeDrawable(private val textSize: Float, textColor: Int, backgroundColor
   fun setText(text: String?) {
     val badge = text ?: ""
     if (this.badge.equals(badge)) return
-    Log.d(TAG, "badge changed from: ${this.badge} to: $badge")
     this.badge = badge
     willDraw = !TextUtils.isEmpty(this.badge);
     invalidateSelf()
   }
 
   override fun draw(canvas: Canvas?) {
-    Log.d(TAG, "draw, willDraw = " + willDraw)
     if (!willDraw || canvas == null) return
 
     val bounds = bounds
@@ -60,17 +55,22 @@ class BadgeDrawable(private val textSize: Float, textColor: Int, backgroundColor
 
     val doublePadding = (textPadding * 2).toFloat()
 
-    val backGroundWidth = textWidth + doublePadding
-    val backGroundHeight = textHeight + doublePadding
+    val backGroundWidth = Math.max(textWidth + doublePadding, minSize)
+    val backGroundHeight = Math.max(textHeight + doublePadding, minSize)
 
     val bottom = bounds.top + backGroundHeight
     val left = bounds.right - backGroundWidth
+    val top = bounds.top.toFloat()
+    val right = bounds.right.toFloat()
 
     val round = backGroundHeight / 2F
 
-    canvas.drawRoundRect(left, bounds.top.toFloat(), bounds.right.toFloat(), bottom, round, round,
-        backgroundPaint)
-    canvas.drawText(badge, left + textPadding, bottom - textPadding, textPaint)
+    canvas.drawRoundRect(left, top, right, bottom, round, round, backgroundPaint)
+
+    val textX = left + (backGroundWidth / 2)
+    val textY = top + ((textHeight + backGroundHeight) / 2F)
+
+    canvas.drawText(badge, textX, textY, textPaint)
   }
 
   override fun setAlpha(alpha: Int) {
