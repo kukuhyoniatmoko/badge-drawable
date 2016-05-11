@@ -8,6 +8,5 @@
     <!-- set a place holder Drawable so android:drawable isn't null -->
     <item
         android:id="@+id/badge_drawable_badge"
-        android:drawable="@drawable/badge_drawable_place_holder"
-        android:gravity="end" />
+        android:drawable="@drawable/badge_drawable_place_holder" />
 </layer-list>
