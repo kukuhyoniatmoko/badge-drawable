@@ -26,7 +26,7 @@ class BadgeDrawable(private val textSize: Float, textColor: Int, backgroundColor
     textPaint.textSize = textSize
     textPaint.isAntiAlias = true
     textPaint.typeface = Typeface.DEFAULT_BOLD
-    textPaint.textAlign = Paint.Align.CENTER
+    textPaint.textAlign = Paint.Align.LEFT
   }
 
   fun setText(text: Int?) {
@@ -52,7 +52,6 @@ class BadgeDrawable(private val textSize: Float, textColor: Int, backgroundColor
     if (!willDraw || canvas == null) return
 
     val bounds = bounds
-    val width = (bounds.right - bounds.left).toFloat()
 
     val textRect = Rect()
     textPaint.getTextBounds(badge, 0, badge.length, textRect)
