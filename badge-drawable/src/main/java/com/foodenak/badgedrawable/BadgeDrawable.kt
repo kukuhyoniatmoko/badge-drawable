@@ -66,7 +66,7 @@ class BadgeDrawable(private val textSize: Float, textColor: Int, backgroundColor
     val doublePadding = (textPadding * 2).toFloat()
 
     val backGroundWidth = Math.max(textWidth + doublePadding, minSize)
-    val backGroundHeight = Math.max(textHeight + doublePadding, minSize)
+    val backGroundHeight = Math.max(textHeight, minSize)
 
     val bottom = bounds.top + backGroundHeight
     val left = bounds.right - backGroundWidth
