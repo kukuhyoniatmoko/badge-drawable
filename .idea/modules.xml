@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/BadgeDrawable.iml" filepath="$PROJECT_DIR$/BadgeDrawable.iml" />
+      <module fileurl="file://$PROJECT_DIR$/badge-drawable/badge-drawable.iml" filepath="$PROJECT_DIR$/badge-drawable/badge-drawable.iml" />
+    </modules>
+  </component>
+</project>
