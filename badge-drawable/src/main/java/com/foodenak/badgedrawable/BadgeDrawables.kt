@@ -17,7 +17,7 @@ fun createBadge(context: Context, icon: Drawable, badge: BadgeDrawable): LayerDr
     context.getDrawable(R.drawable.badge_drawable_icon).mutate() as LayerDrawable
   } else {
     @Suppress("DEPRECATION")
-    (context.resources.getDrawable(R.drawable.badge_drawable_icon).mutate() as LayerDrawable)
+    context.resources.getDrawable(R.drawable.badge_drawable_icon).mutate() as LayerDrawable
   }
   drawable.setDrawableByLayerId(R.id.badge_drawable_icon, icon)
   drawable.setDrawableByLayerId(R.id.badge_drawable_badge, badge)
