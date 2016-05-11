@@ -25,6 +25,7 @@ class BadgeDrawable(private val textSize: Float, textColor: Int, backgroundColor
     textPaint.color = textColor
     textPaint.textSize = textSize
     textPaint.isAntiAlias = true
+    textPaint.typeface = Typeface.DEFAULT_BOLD
     textPaint.textAlign = Paint.Align.CENTER
   }
 
@@ -70,7 +71,7 @@ class BadgeDrawable(private val textSize: Float, textColor: Int, backgroundColor
 
     canvas.drawRoundRect(left, bounds.top.toFloat(),
         bounds.right.toFloat(), bottom, round, round, backgroundPaint)
-    canvas.drawText(badge, bottom / 2F, left + textPadding, textPaint)
+    canvas.drawText(badge, left + textPadding, bounds.top + (bottom / 2F), textPaint)
   }
 
   override fun setAlpha(alpha: Int) {
