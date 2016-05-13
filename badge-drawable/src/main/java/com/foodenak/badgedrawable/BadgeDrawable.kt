@@ -76,11 +76,11 @@ class BadgeDrawable(private val textSize: Float, textColor: Int, backgroundColor
     val round = backGroundHeight / 2F
 
     if (elevationPaint != null) {
-      canvas.drawRoundRect(left, top + elevation, right, bottom + elevation, round, round,
+      canvas.drawRoundRect(RectF(left, top + elevation, right, bottom + elevation), round, round,
           elevationPaint)
     }
 
-    canvas.drawRoundRect(left, top, right, bottom, round, round, backgroundPaint)
+    canvas.drawRoundRect(RectF(left, top, right, bottom), round, round, backgroundPaint)
 
     val textX = left + (backGroundWidth / 2)
     val textY = top + ((textHeight + backGroundHeight) / 2F)
